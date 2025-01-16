@@ -11,22 +11,20 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, {
         email,
         password,
       });
 
       const { token, data } = response.data;
 
-      // Save token and user role in localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("role", data.role);
 
-      // Navigate to the correct page based on role
       if (data.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/user");
+        navigate("/profile");
       }
     } catch (error) {
       alert(error.response.data.error);

@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate()
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/register", {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/register`, {
         name,
         email,
         password,
       });
       alert(response.data.message);
+      setName("")
+      setEmail("")
+      setPassword("")
+      navigate("/login")
     } catch (error) {
       alert(error.response.data.error);
     }
